@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magasin
+  namespace: default
+  labels:
+    app: magasin
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: magasin
+  template:
+    metadata:
+      labels:
+        app: magasin
+    spec:
+      containers:
+        - name: magasin
+          image: ghcr.io/Vista633/DevOps
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: magasin-config
+            - secretRef:
+                name: magasin-secret
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
